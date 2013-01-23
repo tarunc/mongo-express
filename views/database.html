@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'mongo-express/layout.html' %}
 
 {% block title %}{{ dbName }}{% endblock %}
 
@@ -36,13 +36,13 @@
   {% for c in colls %}
   <tr>
     <td class="span2">
-      <a href="db/{{ dbName }}/{{ c }}" class="btn btn-success span2">
+      <a href="{{ baseHref }}db/{{ dbName }}/{{ c }}" class="btn btn-success span2">
         <i class="icon-list-alt icon-white"></i> View
       </a>
     </td>
-    <td><h3><a href="db/{{ dbName }}/{{ c }}">{{ c }}</a></h3></td>
+    <td><h3><a href="{{ baseHref }}db/{{ dbName }}/{{ c }}">{{ c }}</a></h3></td>
     <td class="span2">
-      <form method="POST" action="db/{{ dbName }}/{{ c }}" style="margin: 0px;">
+      <form method="POST" action="{{ baseHref }}db/{{ dbName }}/{{ c }}" style="margin: 0px;">
         <input type="hidden" name="_method" value="delete">
         <button type="submit" class="btn btn-danger span2">
           <i class="icon-trash icon-white"></i>

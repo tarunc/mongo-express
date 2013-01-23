@@ -11,39 +11,39 @@ var async = require('async');
 var utils = require('./utils');
 
 var mongodb = require('mongodb');
-var cons = require('consolidate');
-var swig = require('swig');
-var swigFilters = require('./filters');
+// var cons = require('consolidate');
+// var swig = require('swig');
+// var swigFilters = require('./filters');
 var app = express();
 
 var config = require('./config');
 
 //Set up swig
-app.engine('html', cons.swig);
-swig.init({
-  root: __dirname + '/views',
-  allowErrors: false,
-  filters: swigFilters
-});
+// app.engine('html', cons.swig);
+// swig.init({
+//   root: __dirname + '/views',
+//   allowErrors: false,
+//   filters: swigFilters
+// });
 
 //App configuration
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'html');
-  app.set('view options', {layout: false});
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.static(__dirname + '/public'));
-  app.use(express.bodyParser());
-  app.use(express.cookieParser(config.site.cookieSecret));
-  app.use(express.session({ secret: config.site.sessionSecret }));
+  // app.set('views', __dirname + '/views');
+  // app.set('view engine', 'html');
+  // app.set('view options', {layout: false});
+  // app.use(express.favicon());
+  // app.use(express.logger('dev'));
+  // app.use(express.static(__dirname + '/public'));
+  // app.use(express.bodyParser());
+  // app.use(express.cookieParser(config.site.cookieSecret));
+  // app.use(express.session({ secret: config.site.sessionSecret }));
   app.use(express.methodOverride());
   app.use(app.router);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+// app.configure('development', function(){
+//   app.use(express.errorHandler());
+// });
 
 
 //Set up database stuff
@@ -51,9 +51,10 @@ var host = config.mongodb.server || 'localhost';
 var port = config.mongodb.port || mongodb.Connection.DEFAULT_PORT;
 var dbOptions = {
   auto_reconnect: config.mongodb.autoReconnect,
-  poolSize: config.mongodb.poolSize
+  poolSize: config.mongodb.poolSize,
+  safe: true
 };
-var db = new mongodb.Db('local', new mongodb.Server(host, port, dbOptions));
+var db = new mongodb.Db('local', new mongodb.Server(host, port, dbOptions), { safe: true });
 
 
 var connections = {};
@@ -275,9 +276,16 @@ app.param('document', function(req, res, next, id) {
   });
 });
 
-
+var ControllerHelper = requireHelper('ControllerHelper');
 //mongodb middleware
 var middleware = function(req, res, next) {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return res.redirect('/admin');
+  }
+  
+  var o = ControllerHelper.shouldGzip({}, req);
+  res.locals.jsGzip = o.jsGzip;
+  res.locals.cssGzip = o.cssGzip;
   req.adminDb = adminDb;
   req.databases = databases; //List of database names
   req.collections = collections; //List of collection names in all databases
@@ -287,6 +295,8 @@ var middleware = function(req, res, next) {
 
   next();
 };
+
+global.MOGNO_EXPRESS_VIEW_DIR = VIEWS_PATH + 'mongo-express/';
 
 //Routes
 app.get('/', middleware,  routes.index);
@@ -303,6 +313,8 @@ app.post('/db/:database', middleware, routes.addCollection);
 
 app.get('/db/:database', middleware, routes.viewDatabase);
 
-app.listen(config.site.port || 80);
+exports.app = app;
 
-console.log("Mongo Express server listening on port " + (config.site.port || 80));
+// app.listen(config.site.port || 80);
+
+// console.log("Mongo Express server listening on port " + (config.site.port || 80));
