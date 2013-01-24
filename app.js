@@ -3,7 +3,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
   , http = require('http');
 
 var _ = require('underscore');
@@ -19,6 +18,7 @@ module.exports.express = function (options) {
   var app = express();
 
   var config = global.MONGO_EXPRESS_CONFIG = require('./config')(options);
+  var routes = require('./routes');
 
   //Set up swig
   // app.engine('html', cons.swig);

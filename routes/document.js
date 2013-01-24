@@ -1,4 +1,4 @@
-var config = require('../config');
+var config = MONGO_EXPRESS_CONFIG;
 var bson = require('../bson');
 
 
