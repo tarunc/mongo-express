@@ -15,7 +15,7 @@ var mongodb = require('mongodb');
 // var swig = require('swig');
 // var swigFilters = require('./filters');
 
-module.exports = function (options) {
+module.exports.express = function (options) {
   var app = express();
 
   var config = require('./config')(options);
