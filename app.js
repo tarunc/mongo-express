@@ -18,7 +18,7 @@ var mongodb = require('mongodb');
 module.exports.express = function (options) {
   var app = express();
 
-  var config = require('./config')(options);
+  var config = global.MONGO_EXPRESS_CONFIG = require('./config')(options);
 
   //Set up swig
   // app.engine('html', cons.swig);
