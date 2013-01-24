@@ -298,7 +298,7 @@ module.exports.express = function (options) {
     next();
   };
 
-  global.MOGNO_EXPRESS_VIEW_DIR = __dirname + 'views/';
+  global.MOGNO_EXPRESS_VIEW_DIR = __dirname + '/views/';
 
   //Routes
   app.get('/', middleware,  routes.index);
