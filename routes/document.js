@@ -9,7 +9,7 @@ exports.viewDocument = function(req, res, next) {
     docString: bson.toString(req.document)
   };
 
-  res.render(MOGNO_EXPRESS_VIEW_DIR + 'document.html', ctx);
+  res.render(MOGNO_EXPRESS_VIEW_DIR + 'document.swig', ctx);
 };
 
 

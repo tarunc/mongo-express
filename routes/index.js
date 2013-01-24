@@ -24,7 +24,7 @@ exports.index = function(req, res) {
   };
 
   if (typeof req.adminDb == "undefined") {
-    return res.render(MOGNO_EXPRESS_VIEW_DIR + 'index.html');
+    return res.render(MOGNO_EXPRESS_VIEW_DIR + 'index.swig');
   }
 
   req.adminDb.serverStatus(function(err, info) {
@@ -35,6 +35,6 @@ exports.index = function(req, res) {
 
     ctx.info = info;
 
-    res.render(MOGNO_EXPRESS_VIEW_DIR + 'index.html', ctx);
+    res.render(MOGNO_EXPRESS_VIEW_DIR + 'index.swig', ctx);
   });
 };

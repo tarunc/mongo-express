@@ -78,7 +78,7 @@ exports.viewCollection = function(req, res, next) {
         type: type
       };
 
-      res.render(MOGNO_EXPRESS_VIEW_DIR + 'collection.html', ctx);
+      res.render(MOGNO_EXPRESS_VIEW_DIR + 'collection.swig', ctx);
     });
   });
 };

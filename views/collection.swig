@@ -1,4 +1,4 @@
-{% extends 'mongo-express/layout.html' %}
+{% extends 'mongo-express/layout.swig' %}
 
 {% block title %}{{ collectionName }}{% endblock %}
 
