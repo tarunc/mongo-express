@@ -1,6 +1,8 @@
 module.exports = function createConfig(options) {
   options = options || {};
   options.mongoDbUrl = options.mongoDbUrl || 'mongodb://localhost:27017/test';
+  options.documentsPerPage = options.documentsPerPage || 10;
+  options.editorTheme = options.editorTheme || 'rubyblue';
   
   var mongoUrl = options.mongoDbUrl;
   var url = require('url').parse(mongoUrl);
@@ -60,10 +62,10 @@ module.exports = function createConfig(options) {
     },
     options: {
       //documentsPerPage: how many documents you want to see at once in collection view
-      documentsPerPage: options.documentsPerPage || 10,
+      documentsPerPage: options.documentsPerPage,
       //editorTheme: Name of the theme you want to use for displaying documents
       //See http://codemirror.net/demo/theme.html for all examples
-      editorTheme: options.editorTheme || "rubyblue",
+      editorTheme: options.editorTheme,
 
       //The options below aren't being used yet
 
