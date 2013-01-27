@@ -129,7 +129,7 @@ module.exports.express = function (options) {
       throw err;
     }
 
-    console.log('Database connected!');
+    // console.log('Database connected!');
 
     mainConn = db;
 
@@ -140,7 +140,7 @@ module.exports.express = function (options) {
         adminDb = a;
 
         if (config.mongodb.adminUsername.length == 0) {
-          console.log('Admin Database connected');
+          // console.log('Admin Database connected');
           updateDatabases(adminDb);
         } else {
           //auth details were supplied, authenticate admin account with them
@@ -150,7 +150,7 @@ module.exports.express = function (options) {
               console.error(err);
             }
 
-            console.log('Admin Database connected');
+            // console.log('Admin Database connected');
             updateDatabases(adminDb);
           });
         }
@@ -162,7 +162,7 @@ module.exports.express = function (options) {
       }
 
       async.forEachSeries(config.mongodb.auth, function(auth, callback) {
-        console.log("Connecting to " + auth.database + "...");
+        // console.log("Connecting to " + auth.database + "...");
         connections[auth.database] = mainConn.db(auth.database);
         databases.push(auth.database);
 
@@ -178,12 +178,12 @@ module.exports.express = function (options) {
             }
 
             updateCollections(connections[auth.database], auth.database);
-            console.log('Connected!');
+            // console.log('Connected!');
             callback();
           });
         } else {
           updateCollections(connections[auth.database], auth.database);
-          console.log('Connected!');
+          // console.log('Connected!');
           callback();
         }
       });
